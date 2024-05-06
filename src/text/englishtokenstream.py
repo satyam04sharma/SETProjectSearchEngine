@@ -12,11 +12,18 @@ class EnglishTokenStream(TokenStream):
         """Returns an iterator over the tokens in the stream."""
         # The source iterator probably returns lines of text, not words.
         # Get the next line, then yield each token from it.
-        for token in self.source:
-            for t in token.split(" "):
-                tok = t.strip()
-                if len(tok) > 0:
-                    yield tok
+        # for token in self.source:
+        #     for t in token.split(" "):
+        #         tok = t.strip()
+        #         if len(tok) > 0:
+        #             yield tok
+        for line in self.source.splitlines():  # Ensure it iterates over each line
+            for token in line.split():  # Split each line into words
+                token = token.strip()  # Strip any surrounding whitespace
+                if token:  # Check if token is not empty
+                    yield token
+                else:
+                    print(f"Skipped empty token from line: {line}")
 
 
     # Resource management functions.

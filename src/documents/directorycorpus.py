@@ -53,6 +53,8 @@ class DirectoryCorpus:
 
     @staticmethod
     def load_text_directory(path, extension) -> 'DirectoryCorpus':
+        paths = list(path.glob(f'*{extension}'))
+        print(f"Found documents: {len(paths)}")
         c = DirectoryCorpus(path, 
                 lambda f: f.suffix == extension, 
                 factories={extension: textfiledocument.TextFileDocument.load_from})

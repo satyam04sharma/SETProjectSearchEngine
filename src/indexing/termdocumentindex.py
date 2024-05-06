@@ -33,6 +33,13 @@ class TermDocumentIndex(Index):
 		# Binary search the self.vocabulary list for the given term. (see bisect_left, above)
 		# Walk down the self._matrix row for the term and collect the document IDs (column indices)
 		# of the "true" entries.
+        postings = []
+        vocab_index = bisect_left(self.vocabulary, term)
+        if vocab_index != len(self.vocabulary) and self.vocabulary[vocab_index] == term:
+            for doc_id, contains_term in enumerate(self._matrix[vocab_index]):
+                if contains_term:
+                    postings.append(Posting(doc_id))
+        return postings
     
     def vocabulary(self) -> Iterable[str]:
         return self.vocabulary
